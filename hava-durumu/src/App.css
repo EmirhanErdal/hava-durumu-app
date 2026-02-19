@@ -1,0 +1,134 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+  font-family: 'Segoe UI', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.varsayilan { background-color: #2c3e50; color: white; }
+.sicak { background-color: #f39c12; color: #333; }
+.soguk { background-color: #2980b9; color: white; }
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  z-index: 2;
+  width: 90%;
+}
+
+.main-title {
+  font-size: 2.5rem;
+  color: white;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+.loader {
+  color: white;
+  margin: 20px;
+  font-weight: bold;
+}
+
+.city-buttons {
+  position: absolute;
+  top: 30px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 10;
+  padding: 0 10px;
+}
+
+.city-buttons button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.4);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: 0.3s;
+}
+
+.weather-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  padding: 2rem;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 400px;
+  color: white;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.weather-img { width: 100px; }
+
+.temp-section h1 { font-size: 3.5rem; font-weight: 300; }
+
+.desc { letter-spacing: 2px; margin-bottom: 15px; font-weight: bold; }
+
+.details {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding-top: 15px;
+  font-size: 0.9rem;
+}
+
+.search-container {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 25px 0 0 25px;
+  border: none;
+  outline: none;
+  background: white;
+}
+
+.search-button {
+  padding: 12px 20px;
+  border-radius: 0 25px 25px 0;
+  border: none;
+  cursor: pointer;
+  background: #111;
+  color: white;
+  font-weight: bold;
+}
+
+/* 📱 Mobil Düzenlemeler */
+@media (max-width: 600px) {
+  .main-title { font-size: 1.8rem; }
+  .city-buttons { top: 15px; }
+  .city-buttons button { font-size: 0.75rem; padding: 6px 12px; }
+  .weather-card { padding: 1.5rem; }
+  .temp-section h1 { font-size: 2.8rem; }
+}
