@@ -4,39 +4,45 @@ import "./App.css";
 
 function App() {
   const [havaDurumu, setHavaDurumu] = useState(null);
-  const [arkaPlan, setArkaPlan] = useState("varsayilan");
+  const [arkaPlan, setArkaPlan] = useState(""); 
   const [loading, setLoading] = useState(false);
 
-  const sehirler = ["istanbul", "Malatya", "Kocaeli", "Giresun", "Şırnak"];
   const API_KEY = "f8cf4da6103eff40d4996d76bdc84595";
+
+  // Wikipedia görsel fonksiyonu 🖼️
+  async function getCityImage(city) {
+    try {
+      const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${city}`);
+      const data = await response.json();
+      return data.originalimage?.source || ""; 
+    } catch (error) {
+      console.error("Görsel çekilemedi:", error);
+      return "";
+    }
+  }
 
   const veriGetir = async (gelenSehir) => {
     setLoading(true);
     try {
-      const temizSehir = gelenSehir.trim(); // API Türkçe karakterleri doğrudan kabul eder
-      const dosyaAdi = temizSehir.toLowerCase()
-        .replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ğ/g, 'g')
-        .replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c');
-
+      const temizSehir = gelenSehir.trim();
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${temizSehir}&appid=${API_KEY}&units=metric&lang=tr`;
+      
       const yanıt = await fetch(url);
       if (!yanıt.ok) throw new Error("Şehir bulunamadı");
-
+      
       const veri = await yanıt.json();
 
       setHavaDurumu({
         name: veri.name.toUpperCase(),
         temp: Math.round(veri.main.temp),
-        humidity: veri.main.humidity, // 💧 Nem
+        humidity: veri.main.humidity,
         description: veri.weather[0].description,
-        wind: Math.round(veri.wind.speed * 3.6), // 🌬️ Rüzgar (km/s'ye çevrildi)
+        wind: Math.round(veri.wind.speed * 3.6),
         icon: veri.weather[0].icon
       });
 
-      const listeSehir = sehirler.find(s => 
-        s.toLowerCase().replace(/ı/g, 'i').replace(/ş/g, 's') === dosyaAdi
-      );
-      setArkaPlan(listeSehir ? dosyaAdi : "varsayilan");
+      const gorselUrl = await getCityImage(temizSehir);
+      setArkaPlan(gorselUrl);
 
     } catch (hata) {
       alert("Hata: " + hata.message);
@@ -46,21 +52,16 @@ function App() {
   };
 
   const appStyle = {
-    backgroundImage: arkaPlan !== "varsayilan"
-      ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/images/${arkaPlan}.jpg')`
+    backgroundImage: arkaPlan 
+      ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${arkaPlan}')` 
       : 'none',
     backgroundSize: 'cover',
-    backgroundPosition: 'center'
+    backgroundPosition: 'center',
+    backgroundColor: '#2c3e50'
   };
 
   return (
-    <div className={`App ${arkaPlan === "varsayilan" ? (havaDurumu?.temp > 20 ? "sicak" : "soguk") : ""}`} style={appStyle}>
-      <div className="city-buttons">
-        {sehirler.map((s) => (
-          <button key={s} onClick={() => veriGetir(s)} disabled={loading}>{s}</button>
-        ))}
-      </div>
-
+    <div className="App" style={appStyle}>
       <div className="main-container">
         <h1 className="main-title">Hava Durumu 🌤️</h1>
         <SearchBar onSearch={veriGetir} disabled={loading} />
@@ -71,9 +72,9 @@ function App() {
           <div className="weather-card">
             <h3>{havaDurumu.name}</h3>
             <div className="temp-section">
-              <img
-                src={`https://openweathermap.org/img/wn/${havaDurumu.icon}@4x.png`}
-                alt="Hava Durumu"
+              <img 
+                src={`https://openweathermap.org/img/wn/${havaDurumu.icon}@4x.png`} 
+                alt="Hava Durumu" 
                 className="weather-img"
               />
               <h1>{havaDurumu.temp}°C</h1>
@@ -86,6 +87,11 @@ function App() {
           </div>
         )}
       </div>
+
+      {/* Sağ alt köşedeki imzan ✍️ */}
+      <footer className="signature">
+        Made by Emirhan Erdal
+      </footer>
     </div>
   );
 }

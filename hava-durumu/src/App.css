@@ -17,6 +17,7 @@
   overflow: hidden;
 }
 
+/* Varsayılan Arka Planlar */
 .varsayilan { background-color: #2c3e50; color: white; }
 .sicak { background-color: #f39c12; color: #333; }
 .soguk { background-color: #2980b9; color: white; }
@@ -35,35 +36,13 @@
   color: white;
   text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .loader {
   color: white;
   margin: 20px;
   font-weight: bold;
-}
-
-.city-buttons {
-  position: absolute;
-  top: 30px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  z-index: 10;
-  padding: 0 10px;
-}
-
-.city-buttons button {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.4);
-  background: rgba(0,0,0,0.4);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: 0.3s;
 }
 
 .weather-card {
@@ -99,6 +78,7 @@
   font-size: 0.9rem;
 }
 
+/* 🔍 Arama Çubuğu Tasarımı (Siyah Tema) */
 .search-container {
   display: flex;
   width: 100%;
@@ -109,9 +89,10 @@
   flex: 1;
   padding: 12px 20px;
   border-radius: 25px 0 0 25px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   outline: none;
-  background: white;
+  background: #000; /* Arka plan siyah */
+  color: white;     /* Yazı rengi beyaz */
 }
 
 .search-button {
@@ -122,13 +103,28 @@
   background: #111;
   color: white;
   font-weight: bold;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ✍️ Sağ Alt Köşe İmzası */
+.signature {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  font-style: italic;
+  z-index: 10;
 }
 
 /* 📱 Mobil Düzenlemeler */
 @media (max-width: 600px) {
   .main-title { font-size: 1.8rem; }
-  .city-buttons { top: 15px; }
-  .city-buttons button { font-size: 0.75rem; padding: 6px 12px; }
   .weather-card { padding: 1.5rem; }
   .temp-section h1 { font-size: 2.8rem; }
+  .signature {
+    right: 10px;
+    bottom: 10px;
+    font-size: 0.7rem;
+  }
 }
